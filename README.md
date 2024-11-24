@@ -1,1 +1,1 @@
-# multithreaded_programming_project
+# Multithreaded_Programming_Project
