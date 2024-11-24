@@ -61,9 +61,7 @@ void thrd_print(const std::string& str) {  // Thread safe print
 }
 
 barrier barrier_allthreads_started(1 + (NUM_TEAMS * NUM_MEMBERS)); // Need all the thread to reach here before the start can continue.
-//Part 1.3 Create another barrier array and name it "barrier_go" which you will use to make all threads wait until the race official starts the race
 barrier barrier_go(1 + NUM_TEAMS * NUM_MEMBERS);  // Barrier for starting race
-//Part 2.1  Create a std::atomic variable of type bool, initalised to false and name it "winner". You will use it to ensure just the winning thread claims to have won the race.
 std::atomic<bool> winner{ false }; // fasle means no winner yet
 std::atomic<int> drop_runner_index{ -1 }; // Initialize with -1 (no runner selected yet)
 
