@@ -2,15 +2,15 @@
 
 The program simulates a 4x100 meter relay race with 4 teams, leveraging multithreading in C++ to model the concurrent actions of athletes in the race. The simulation incorporates randomness, baton exchange mechanics, and potential errors like dropping the baton, adding realism to the model.  
 
-- START CONDITION
+- START CONDITION  
 When the simulation starts, the program ensures synchronization by using a barrier `barrier_allthreads_started`. This ensures that all threads (16 subthreads representing the athlete and the main thread) reach the same point before proceeding further. Once all athletes are ready, the main thread simulates a race official raising the starting pistol and then triggers the race after a short randomized delay between 3 seconds and 5 seconds. After the "GO!" signal, each thread (athlete) begins running, with the sprint times being simulated using random values between 10s and 12s.  
 
-- HANDOVER OF THE BATON
+- HANDOVER OF THE BATON  
 The current athlete locks the previous athlete's mutex `pPrevA->mtx` to ensure thread-safe access and then waits on the previous athlete's condition variable `pPrevA->baton` until the previous athlete signals they have finished `bFinished == true`  
 
-One random athlete will drop the baton in this rely. A panlty of 2s will be added to the team's final results.  
+  One random athlete is selected to drop the baton during the relay, introducing a delay with a random recovery time between 1s and 3s. A 2s penalty is added to the athlete's sprint time, which will affect the team's final result.
 
-- WINNER CLAIM
+- WINNER CLAIM  
 The winner is determined using an atomic flag `winner`, which ensures only one thread can claim victory by atomically setting the flag to true using `exchange()`. If the flag was previously false, the thread declares its team as the winner; otherwise, it does nothing, ensuring only one winner is announced even with concurrent threads.  
 
 ## Example output
